@@ -11,14 +11,14 @@ import qrcode
 import zbarlight
 import math
 # from steganography import *
-from MainHandler import MainHandler
-from QRCodeHandler import QRCodeHandler
+from EncodeHandler import EncodeHandler
+from DecodeHandler import DecodeHandler
 # import pyzbar.pyzbar as pyzbar
 
 def make_app():
 	return tornado.web.Application([
-		(r"/api/linear", MainHandler),
-		(r"/api/qrcode", QRCodeHandler)
+		(r"/api/encode", EncodeHandler),
+		(r"/api/decode", DecodeHandler)
 	])
 
 if __name__ == "__main__":
