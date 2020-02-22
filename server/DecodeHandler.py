@@ -1,6 +1,12 @@
 import tornado.ioloop
 import tornado.web
 import qrcode
+import json
+import pybase64
+import math
+import io
+from PIL import Image
+from pyzbar.pyzbar import decode
 
 class DecodeHandler(tornado.web.RequestHandler):
 	def get(self):

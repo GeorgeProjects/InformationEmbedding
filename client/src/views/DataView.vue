@@ -43,7 +43,6 @@
 		computed: {
 		},
 		mounted() {
-			console.log('specFromImage', this.specFromImage.data)
 			this.dataFromImage = this.specFromImage.data
 		},
 		methods: {

@@ -116,6 +116,7 @@
 						image.src = uri;
 						dataAndSpec.image_uri = uri
 						dataAndSpec.spec_data = self.specFromImage
+						console.log('dataAndSpec', dataAndSpec)
 						let dataAndSpecStr = JSON.stringify(dataAndSpec)
 						console.log('dataAndSpecStr', dataAndSpecStr)
 						sendData(dataAndSpecStr, self.render_host_image)

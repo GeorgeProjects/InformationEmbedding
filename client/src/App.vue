@@ -8,13 +8,16 @@
         :default-active="activeIndex"
         active-text-color="#ffd04b">
         <el-menu-item class='labelIcon' id="title">
-          {{appName}}
+          {{ appName }}
         </el-menu-item>
-        <el-menu-item index="upload" @click="upload_data">
+        <el-menu-item index="upload" content="upload images" @click="upload_data">
           <i class="icon iconfont icon-upload"></i>       
         </el-menu-item>
-        <el-menu-item index="qr_code" @click="generate_qr_code">
-          <el-dropdown trigger="click" placement="bottom" :hide-on-click="false">
+        <el-menu-item index="qr_code" content="embed data" @click="generate_qr_code">
+          <span class="el-dropdown-link">
+            <i class="icon iconfont icon-Qr_code"></i>
+          </span>
+          <!-- <el-dropdown trigger="click" placement="bottom" :hide-on-click="false">
             <span class="el-dropdown-link">
               <i class="icon iconfont icon-Qr_code"></i><i class="el-icon-arrow-down el-icon--right"></i>
             </span>
@@ -28,9 +31,9 @@
                 </el-row>
               </el-dropdown-item>
             </el-dropdown-menu>
-          </el-dropdown>
+          </el-dropdown> -->
         </el-menu-item> 
-        <el-menu-item index="download_data" @click="download_data">
+        <el-menu-item index="download_data" content="download image" @click="download_data">
           <i class="icon iconfont icon-Datadownload"></i>
         </el-menu-item>
     </el-menu>
@@ -45,6 +48,19 @@
         <DataView :specFromImage="dynamicLinkChartSpec" v-if="showGroupBarChart"></DataView>
       </div>
     </div>
+    <!--data dialog-->
+    <el-dialog title="Upload Image" id="upload-image-dialog" 
+      :visible.sync="uploadImageVisible">
+      <UploadImage
+        :imageDialogKey="imageDialogKey"
+        @closeImageDialog="closeImageDialog"
+        :updateImagePreviewUrl="updateImagePreviewUrl"
+        :updateImagePreviewDialogVisible="updateImagePreviewDialogVisible">
+      </UploadImage>
+    </el-dialog>
+    <el-dialog :visible.sync="imagePreviewDialogVisible">
+        <img width="100%" :src="dialogImageUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 
@@ -52,6 +68,7 @@
 import VisView from './views/VisView.vue'
 import CodeView from './views/CodeView.vue'
 import DataView from './views/DataView.vue'
+import UploadImage from './views/Dialog/UploadImage.vue'
 import { mapVegaLiteSpec } from 'vue-vega'
 import BarChartSpec from './assets/spec/vega-lite/bar.vl.json'
 import population from './assets/spec/data/population.json'
@@ -64,7 +81,7 @@ import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'app',
   components: {
-    VisView, CodeView, DataView
+    VisView, CodeView, DataView, UploadImage
   },
   data() {
     return {
@@ -72,8 +89,12 @@ export default {
       operationArray: [],
       activeIndex: '',
       showGroupBarChart: false,
+      uploadImageVisible: false,
+      imagePreviewDialogVisible: false,
+      imageDialogKey: 0,
       specFromImage: {},
       dataFromImage: {},
+      dialogImageUrl: '',
       QRCodeOpacity: 1,
       dynamicLinkChartSpec: {
         "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
@@ -140,7 +161,17 @@ export default {
       return 'icon-' + operation
     },
     upload_data: function() {
-
+      this.uploadImageVisible = true
+    },
+    closeImageDialog: function() {
+      this.uploadImageVisible = false
+    },
+    updateImagePreviewDialogVisible: function() {
+      console.log('updateImagePreviewDialogVisible')
+      this.imagePreviewDialogVisible = true
+    },
+    updateImagePreviewUrl: function(dialogImagePreviewUrl) {
+      this.dialogImageUrl = dialogImagePreviewUrl
     },
     generate_qr_code: function() {
       this.$refs.visview.generate_qr_code()
@@ -164,6 +195,36 @@ export default {
 </script>
 
 <style lang="less">
+  #app {
+    // 数据集的选择对话框
+    #upload-image-dialog {
+      .el-dialog {
+        width: 40%;
+        min-height: 250px;
+        .el-dialog__header {
+          text-align: left;
+        }
+        .el-dialog__body {
+          padding-top: 0px !important;
+        }
+      }
+    }
+  }
+  .el-dropdown-menu.el-popper {
+    min-width: 240px;
+    padding: 5px 0;
+    .el-dropdown-menu__item {
+      padding: 0 8px;
+      .el-slider {
+        .el-slider__button {
+          width: 12px;
+          height: 12px;
+        }
+      }
+    }
+  }
+</style>
+<style scoped lang="less">
 html {
   font-size: 100%;
 }
@@ -235,19 +296,5 @@ html {
       right: 0%;
     }
   }
-}
-.el-dropdown-menu.el-popper {
-  min-width: 240px;
-  padding: 5px 0;
-  .el-dropdown-menu__item {
-    padding: 0 8px;
-    .el-slider {
-      .el-slider__button {
-        width: 12px;
-        height: 12px;
-      }
-    }
-  }
-
 }
 </style>
