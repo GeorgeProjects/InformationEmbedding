@@ -5,15 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    huahuhauhau: 'jaua'
+  	displayMode: 'vis'
   },
   mutations: {
-    ['UPDATE'] (state, huahuhauhau) {
-      console.log('huahuhauhau', huahuhauhau)
-      console.log('state.huahuhauhau', state.huahuhauhau)
-      state.huahuhauhau = huahuhauhau
-      console.log('state.huahuhauhau', state.huahuhauhau)
-    },
+    ['UPDATE_DISPLAY_MODE'] (state, displayMode) {
+      state.displayMode = displayMode
+    }	
   },
   actions: {
 

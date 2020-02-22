@@ -42,16 +42,18 @@ export default {
       console.log('change display mode')
     }
   },
-  computed: {  
+  computed: { 
+    ...mapState([
+      'displayMode'
+    ]) 
   },  
   methods: {
     changeDisplayMode: function() {
       console.log('changeDisplayMode', this.mode)
-      this.display = this.mode
-      this.UPDATE(this.mode)
+      this.UPDATE_DISPLAY_MODE(this.mode)
     },
     ...mapMutations([
-      'UPDATE'
+      'UPDATE_DISPLAY_MODE'
     ])
   }
 }

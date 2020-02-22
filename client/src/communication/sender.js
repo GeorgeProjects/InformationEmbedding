@@ -5,7 +5,7 @@ export function sendData(image, render_host_image) {
 	// 向服务器端传递数据
 	axios({
 	  method: 'post',
-	  url: window.baseURL + '/api/encode',
+	  url: window.baseURL + '/api/linear',
 	  data: image,
 	  timeout: 500000,
 	  crossDomain: true

@@ -10,19 +10,33 @@
         <el-menu-item class='labelIcon' id="title">
           {{appName}}
         </el-menu-item>
-        <el-menu-item index="upload">
+        <el-menu-item index="upload" @click="upload_data">
           <i class="icon iconfont icon-upload"></i>       
         </el-menu-item>
-        <el-menu-item index="qr_code">
-          <i class="icon iconfont icon-Qr_code"></i>
+        <el-menu-item index="qr_code" @click="generate_qr_code">
+          <el-dropdown trigger="click" placement="bottom" :hide-on-click="false">
+            <span class="el-dropdown-link">
+              <i class="icon iconfont icon-Qr_code"></i><i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item class="block">
+                <el-row>
+                  <el-col :span="7">opacity</el-col>
+                  <el-col :span="17">
+                      <el-slider v-model="QRCodeOpacity" :step="1" :max="6" show-stops></el-slider>
+                  </el-col>
+                </el-row>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </el-menu-item> 
-        <el-menu-item index="download_data">
+        <el-menu-item index="download_data" @click="download_data">
           <i class="icon iconfont icon-Datadownload"></i>
         </el-menu-item>
     </el-menu>
     <div class = "content-container">
       <div class = "vis-panel">
-        <VisView :specFromImage="dynamicLinkChartSpec" v-if="showGroupBarChart"></VisView>
+        <VisView :specFromImage="dynamicLinkChartSpec" ref="visview" v-if="showGroupBarChart"></VisView>
       </div>
       <div class = "dsl-panel">
         <CodeView :specFromImage="dynamicLinkChartSpec" v-if="showGroupBarChart"></CodeView>
@@ -55,10 +69,12 @@ export default {
   data() {
     return {
       appName: "Information Hiding",
+      operationArray: [],
       activeIndex: '',
       showGroupBarChart: false,
       specFromImage: {},
       dataFromImage: {},
+      QRCodeOpacity: 1,
       dynamicLinkChartSpec: {
         "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
         "title": "cars",
@@ -111,16 +127,25 @@ export default {
   },
   computed: {
     ...mapState([
+      'displayMode'
     ])
   },
   watch: {
-    huahuhauhau: function() {
-      console.log('huahuhauhau change')
+    displayMode: function() {
+      console.log('displayMode', this.displayMode)
     }
   },
   methods: {
     iconClass(operation) {
       return 'icon-' + operation
+    },
+    upload_data: function() {
+
+    },
+    generate_qr_code: function() {
+      this.$refs.visview.generate_qr_code()
+    },
+    download_data: function() {
     },
     sendQRData2Server: function() {
       let qrcode_data = "date precipitation temp_max temp_min wind weather 2012/01/01 0.0 12.8 5.0 4.7 drizzle 2012/01/02 10.9 10.6 2.8 4.5 rain 2012/01/03 0.8 11.7 7.2 2.3 rain 2012/01/04 20.3 12.2 5.6 4.7 rain 2012/01/05 1.3 8.9 2.8 6.1 rain 2012/01/06 2.5 4.4 2.2 2.2 rain 2012/01/07 0.0 7.2 2.8 2.3 rain 2012/01/08 0.0 10.0 2.8 2.0 sun 2012/01/09 4.3 9.4 5.0 3.4 rain 2012/01/10 1.0 6.1 0.6 3.4 rain 2012/01/11 0.0 6.1 -1.1 5.1 sun 2012/01/12 0.0 6.1 -1.7 1.9 sun 2012/01/13 0.0 5.0 -2.8 1.3 sun 2012/01/14 4.1 4.4 0.6 5.3 snow 2012/01/15 5.3 1.1 -3.3 3.2 snow"
@@ -128,6 +153,7 @@ export default {
     }
   },
   mounted: function() {
+    console.log('this.displayMode', this.displayMode)
     this.dynamicLinkChartSpec.data = {
       "values": cars
     }
@@ -168,6 +194,9 @@ html {
       .icon {
         color: #dadada !important;
       }
+      .el-icon-arrow-down.el-icon--right {
+        color: #dadada !important;
+      }
     }
     .el-divider--vertical {
       margin: 0 0;
@@ -206,5 +235,19 @@ html {
       right: 0%;
     }
   }
+}
+.el-dropdown-menu.el-popper {
+  min-width: 240px;
+  padding: 5px 0;
+  .el-dropdown-menu__item {
+    padding: 0 8px;
+    .el-slider {
+      .el-slider__button {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+
 }
 </style>

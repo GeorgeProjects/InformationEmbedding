@@ -27,7 +27,7 @@ module.exports = {
 	configureWebpack: {
 	    resolve: {
 		    alias: {
-		      'vue$': 'vue/dist/vue.esm.js' // 在 webpack 1 中使用 'vue/dist/vue.common.js'
+		      'vue$': 'vue/dist/vue.common.js' // 在 webpack 1 中使用 'vue/dist/vue.common.js'
 		    }
 		}
 	}

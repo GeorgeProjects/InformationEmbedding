@@ -40,14 +40,16 @@
 				VisPanel: "Visualization Panel",
 				styleObject: {
 					width: '100%'
-				},
-				displayMode: 'vis'
+				}
 			}
 		},
 		components: {
 			VisTitleView
 		},
 		computed: {
+			...mapState([
+		      'displayMode'
+		    ])
 		},
 		watch: {
 		},
@@ -57,14 +59,24 @@
 		  let visPanelHeight = $('.vis-content-view').height()
 		  self.addChartSize(self.specFromImage, visPanelWidth, visPanelHeight)
 		  self.showVisImage = true
-		  setTimeout(function() {
-		  		console.log('save results as png')
-				self.saveResultAsPng()
-		  }, 2000)
 		},
 		methods: {
+			...mapMutations([
+		      'UPDATE_DISPLAY_MODE'
+		    ]),
 			downloadImage: function() {
-
+				let imageName = 'image.png'
+				var a = $("<a>")
+				    .attr("href", document.getElementById('host-image').src)
+				    .attr("download", "img.png")
+				    .appendTo("body");
+				a[0].click();
+				a.remove();
+			},
+			generate_qr_code: function() {
+				console.log('vis view generate qr code')
+				//	save the svg results as images
+				this.saveResultAsPng()
 			},
 			addChartSize: function(chartSpec, visPanelWidth, visPanelHeight) {
 		      let padding = this.CHART_PADDING
@@ -105,23 +117,24 @@
 						dataAndSpec.image_uri = uri
 						dataAndSpec.spec_data = self.specFromImage
 						let dataAndSpecStr = JSON.stringify(dataAndSpec)
+						console.log('dataAndSpecStr', dataAndSpecStr)
 						sendData(dataAndSpecStr, self.render_host_image)
 					});
-					// var ctx = imageOperateCanvas.getContext("2d");
 					// ctx.putImageData(imgData, 0, 0);
-					svgAsDataUri(svgElement).then(uri => {
-						// let png = new PNG({ filterType:4 }).parse(uri, function(error, data) {
-						//     console.log(error, data)
-						// });
-						PNGImage.loadImage(uri, function(error, image) {
-							console.log('image width', image.getWidth())
-							console.log('image height', image.getHeight())							
-						})
-					})
+					// svgAsDataUri(svgElement).then(uri => {
+					// 	// let png = new PNG({ filterType:4 }).parse(uri, function(error, data) {
+					// 	//     console.log(error, data)
+					// 	// });
+					// 	PNGImage.loadImage(uri, function(error, image) {
+					// 		console.log('image width', image.getWidth())
+					// 		console.log('image height', image.getHeight())							
+					// 	})
+					// })
 				}
 			},
 			// render results
 			render_host_image: function(res) {
+				this.UPDATE_DISPLAY_MODE('image')
 				let hostImageStr = res.data
 				let hostImageUri = 'data:image/png;base64,' + hostImageStr
 				this.imageSrc = hostImageUri
@@ -130,12 +143,8 @@
 					imageWidth = +$('.img-content-view').width()
 				}
 				this.styleObject.width = imageWidth + 'px'
-				console.log('show host image')
 				this.showImage = true	
-			},
-			...mapMutations([
-		      ''
-		    ])
+			}
 		}
 	}
 </script>
