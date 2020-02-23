@@ -18,6 +18,23 @@ export function sendData(image, render_host_image) {
 	});
 }
 
+export function decodeDataFromImage(fileUrl, updateExtractData) {
+	console.log('fileUrl', fileUrl)
+	axios({
+	  method: 'post',
+	  url: window.baseURL + '/api/decode',
+	  data: fileUrl,
+	  timeout: 500000,
+	  crossDomain: true
+	})
+	.then((res) => {
+	  updateExtractData(res)
+	})
+	.catch((err) => {
+	  console.log('axios failed', err)
+	});
+}
+
 export function sendQRData(qrcode_data, render_host_image) {
 	// 向服务器端传递数据
 	axios({

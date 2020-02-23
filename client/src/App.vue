@@ -13,7 +13,7 @@
         <el-menu-item index="upload" content="upload images" @click="upload_data">
           <i class="icon iconfont icon-upload"></i>       
         </el-menu-item>
-        <el-menu-item index="qr_code" content="embed data" @click="generate_qr_code">
+        <el-menu-item index="qr_code" content="embed data" @click="generateQRCode">
           <span class="el-dropdown-link">
             <i class="icon iconfont icon-Qr_code"></i>
           </span>
@@ -37,9 +37,13 @@
           <i class="icon iconfont icon-Datadownload"></i>
         </el-menu-item>
     </el-menu>
-    <div class = "content-container">
+    <div class = "content-container"
+        v-loading="loading">
       <div class = "vis-panel">
-        <VisView :specFromImage="dynamicLinkChartSpec" ref="visview" v-if="showGroupBarChart"></VisView>
+        <VisView :specFromImage="dynamicLinkChartSpec"
+                 :generateQRCodeCallBack="generateQRCodeCallBack" 
+                 ref="visview" v-if="showGroupBarChart">
+        </VisView>
       </div>
       <div class = "dsl-panel">
         <CodeView :specFromImage="dynamicLinkChartSpec" v-if="showGroupBarChart"></CodeView>
@@ -53,8 +57,9 @@
       :visible.sync="uploadImageVisible">
       <UploadImage
         :imageDialogKey="imageDialogKey"
-        @closeImageDialog="closeImageDialog"
         :updateImagePreviewUrl="updateImagePreviewUrl"
+        :decodeDataFromImage="decodeDataFromImage"
+        :closeUploadImageDialog="closeUploadImageDialog"
         :updateImagePreviewDialogVisible="updateImagePreviewDialogVisible">
       </UploadImage>
     </el-dialog>
@@ -75,7 +80,7 @@ import population from './assets/spec/data/population.json'
 import barley from './assets/spec/data/barley.json'
 import cars from './assets/spec/data/cars.json'
 import VueVega from 'vue-vega' 
-import { sendQRData } from '@/communication/sender.js'
+import { sendQRData, decodeDataFromImage } from '@/communication/sender.js'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
@@ -96,6 +101,7 @@ export default {
       dataFromImage: {},
       dialogImageUrl: '',
       QRCodeOpacity: 1,
+      loading: false,
       dynamicLinkChartSpec: {
         "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
         "title": "cars",
@@ -163,7 +169,7 @@ export default {
     upload_data: function() {
       this.uploadImageVisible = true
     },
-    closeImageDialog: function() {
+    closeUploadImageDialog: function() {
       this.uploadImageVisible = false
     },
     updateImagePreviewDialogVisible: function() {
@@ -173,14 +179,44 @@ export default {
     updateImagePreviewUrl: function(dialogImagePreviewUrl) {
       this.dialogImageUrl = dialogImagePreviewUrl
     },
-    generate_qr_code: function() {
+    generateQRCode: function() {
       this.$refs.visview.generate_qr_code()
+      // show loading page
+      this.loading = true
+    },
+    generateQRCodeCallBack: function() {
+      // hide loading page
+      this.loading = false
+    },
+    decodeDataFromImage: function(file) {
+      let ImageParameterObj = {
+        image_uri: file.url
+      }
+      decodeDataFromImage(ImageParameterObj, this.updateExtractData)
+    },
+    updateExtractData: function(res) {
+      if ((typeof(res) !== 'undefined') && (res != null)) {
+          let resData = res.data
+          if (typeof(resData) !== 'undefined') {
+            this.promptMessage(resData.type, resData.message)
+          }
+          if (resData.type === 'success') {
+            let extractStr = resData.extractStr
+            console.log('extractStr', extractStr)
+          } 
+      }
     },
     download_data: function() {
     },
     sendQRData2Server: function() {
       let qrcode_data = "date precipitation temp_max temp_min wind weather 2012/01/01 0.0 12.8 5.0 4.7 drizzle 2012/01/02 10.9 10.6 2.8 4.5 rain 2012/01/03 0.8 11.7 7.2 2.3 rain 2012/01/04 20.3 12.2 5.6 4.7 rain 2012/01/05 1.3 8.9 2.8 6.1 rain 2012/01/06 2.5 4.4 2.2 2.2 rain 2012/01/07 0.0 7.2 2.8 2.3 rain 2012/01/08 0.0 10.0 2.8 2.0 sun 2012/01/09 4.3 9.4 5.0 3.4 rain 2012/01/10 1.0 6.1 0.6 3.4 rain 2012/01/11 0.0 6.1 -1.1 5.1 sun 2012/01/12 0.0 6.1 -1.7 1.9 sun 2012/01/13 0.0 5.0 -2.8 1.3 sun 2012/01/14 4.1 4.4 0.6 5.3 snow 2012/01/15 5.3 1.1 -3.3 3.2 snow"
       sendQRData(qrcode_data)
+    },
+    promptMessage: function(type, message) {
+      this.$message({
+        type: type,
+        message: message
+      })
     }
   },
   mounted: function() {
@@ -208,6 +244,10 @@ export default {
           padding-top: 0px !important;
         }
       }
+    }
+    .circular {
+      height: 8rem !important;
+      width: 8rem !important;
     }
   }
   .el-dropdown-menu.el-popper {

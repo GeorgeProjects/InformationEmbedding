@@ -29,6 +29,9 @@
 		props: {
 			specFromImage: {
 				default: Object
+			},
+			generateQRCodeCallBack: {
+				default: Function
 			}
 		},
 		data() {
@@ -145,6 +148,7 @@
 				}
 				this.styleObject.width = imageWidth + 'px'
 				this.showImage = true	
+				this.generateQRCodeCallBack()
 			}
 		}
 	}
