@@ -197,6 +197,7 @@ export default {
     updateExtractData: function(res) {
       if ((typeof(res) !== 'undefined') && (res != null)) {
           let resData = res.data
+          console.log('resData', resData)
           if (typeof(resData) !== 'undefined') {
             this.promptMessage(resData.type, resData.message)
           }

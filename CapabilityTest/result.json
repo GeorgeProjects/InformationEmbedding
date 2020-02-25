@@ -1,0 +1,722 @@
+[
+  {
+    "qrcodeModule": 1,
+    "qrcodeCellNum": 2.0,
+    "error": 1,
+    "qrcodeImageWidth": 42.0
+  },
+  {
+    "qrcodeModule": 1,
+    "qrcodeCellNum": 1.0,
+    "error": 2,
+    "qrcodeImageWidth": 21.0
+  },
+  {
+    "qrcodeModule": 1,
+    "qrcodeCellNum": 1.0,
+    "error": 3,
+    "qrcodeImageWidth": 21.0
+  },
+  {
+    "qrcodeModule": 2,
+    "qrcodeCellNum": 2.0,
+    "error": 1,
+    "qrcodeImageWidth": 50.0
+  },
+  {
+    "qrcodeModule": 2,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 50.0
+  },
+  {
+    "qrcodeModule": 2,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 50.0
+  },
+  {
+    "qrcodeModule": 3,
+    "qrcodeCellNum": 2.0,
+    "error": 1,
+    "qrcodeImageWidth": 58.0
+  },
+  {
+    "qrcodeModule": 3,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 58.0
+  },
+  {
+    "qrcodeModule": 3,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 58.0
+  },
+  {
+    "qrcodeModule": 4,
+    "qrcodeCellNum": 2.0,
+    "error": 1,
+    "qrcodeImageWidth": 66.0
+  },
+  {
+    "qrcodeModule": 4,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 66.0
+  },
+  {
+    "qrcodeModule": 4,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 66.0
+  },
+  {
+    "qrcodeModule": 5,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 111.0
+  },
+  {
+    "qrcodeModule": 5,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 74.0
+  },
+  {
+    "qrcodeModule": 5,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 74.0
+  },
+  {
+    "qrcodeModule": 6,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 123.0
+  },
+  {
+    "qrcodeModule": 6,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 82.0
+  },
+  {
+    "qrcodeModule": 6,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 82.0
+  },
+  {
+    "qrcodeModule": 7,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 135.0
+  },
+  {
+    "qrcodeModule": 7,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 90.0
+  },
+  {
+    "qrcodeModule": 7,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 90.0
+  },
+  {
+    "qrcodeModule": 8,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 147.0
+  },
+  {
+    "qrcodeModule": 8,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 98.0
+  },
+  {
+    "qrcodeModule": 8,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 98.0
+  },
+  {
+    "qrcodeModule": 9,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 159.0
+  },
+  {
+    "qrcodeModule": 9,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 106.0
+  },
+  {
+    "qrcodeModule": 9,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 106.0
+  },
+  {
+    "qrcodeModule": 10,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 171.0
+  },
+  {
+    "qrcodeModule": 10,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 114.0
+  },
+  {
+    "qrcodeModule": 10,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 114.0
+  },
+  {
+    "qrcodeModule": 11,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 183.0
+  },
+  {
+    "qrcodeModule": 11,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 122.0
+  },
+  {
+    "qrcodeModule": 11,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 122.0
+  },
+  {
+    "qrcodeModule": 12,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 195.0
+  },
+  {
+    "qrcodeModule": 12,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 130.0
+  },
+  {
+    "qrcodeModule": 12,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 130.0
+  },
+  {
+    "qrcodeModule": 13,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 207.0
+  },
+  {
+    "qrcodeModule": 13,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 138.0
+  },
+  {
+    "qrcodeModule": 13,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 138.0
+  },
+  {
+    "qrcodeModule": 14,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 219.0
+  },
+  {
+    "qrcodeModule": 14,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 146.0
+  },
+  {
+    "qrcodeModule": 14,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 146.0
+  },
+  {
+    "qrcodeModule": 15,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 231.0
+  },
+  {
+    "qrcodeModule": 15,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 154.0
+  },
+  {
+    "qrcodeModule": 15,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 154.0
+  },
+  {
+    "qrcodeModule": 16,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 243.0
+  },
+  {
+    "qrcodeModule": 16,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 162.0
+  },
+  {
+    "qrcodeModule": 16,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 162.0
+  },
+  {
+    "qrcodeModule": 17,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 255.0
+  },
+  {
+    "qrcodeModule": 17,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 170.0
+  },
+  {
+    "qrcodeModule": 17,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 170.0
+  },
+  {
+    "qrcodeModule": 18,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 267.0
+  },
+  {
+    "qrcodeModule": 18,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 178.0
+  },
+  {
+    "qrcodeModule": 18,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 178.0
+  },
+  {
+    "qrcodeModule": 19,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 279.0
+  },
+  {
+    "qrcodeModule": 19,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 186.0
+  },
+  {
+    "qrcodeModule": 19,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 186.0
+  },
+  {
+    "qrcodeModule": 20,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 291.0
+  },
+  {
+    "qrcodeModule": 20,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 194.0
+  },
+  {
+    "qrcodeModule": 20,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 194.0
+  },
+  {
+    "qrcodeModule": 21,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 303.0
+  },
+  {
+    "qrcodeModule": 21,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 202.0
+  },
+  {
+    "qrcodeModule": 21,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 202.0
+  },
+  {
+    "qrcodeModule": 22,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 315.0
+  },
+  {
+    "qrcodeModule": 22,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 210.0
+  },
+  {
+    "qrcodeModule": 22,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 210.0
+  },
+  {
+    "qrcodeModule": 23,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 327.0
+  },
+  {
+    "qrcodeModule": 23,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 218.0
+  },
+  {
+    "qrcodeModule": 23,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 218.0
+  },
+  {
+    "qrcodeModule": 24,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 339.0
+  },
+  {
+    "qrcodeModule": 24,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 226.0
+  },
+  {
+    "qrcodeModule": 24,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 226.0
+  },
+  {
+    "qrcodeModule": 25,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 351.0
+  },
+  {
+    "qrcodeModule": 25,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 234.0
+  },
+  {
+    "qrcodeModule": 25,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 234.0
+  },
+  {
+    "qrcodeModule": 26,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 363.0
+  },
+  {
+    "qrcodeModule": 26,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 242.0
+  },
+  {
+    "qrcodeModule": 26,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 242.0
+  },
+  {
+    "qrcodeModule": 27,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 375.0
+  },
+  {
+    "qrcodeModule": 27,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 250.0
+  },
+  {
+    "qrcodeModule": 27,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 250.0
+  },
+  {
+    "qrcodeModule": 28,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 387.0
+  },
+  {
+    "qrcodeModule": 28,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 258.0
+  },
+  {
+    "qrcodeModule": 28,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 258.0
+  },
+  {
+    "qrcodeModule": 29,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 399.0
+  },
+  {
+    "qrcodeModule": 29,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 266.0
+  },
+  {
+    "qrcodeModule": 29,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 266.0
+  },
+  {
+    "qrcodeModule": 30,
+    "qrcodeCellNum": 2.0,
+    "error": 1,
+    "qrcodeImageWidth": 274.0
+  },
+  {
+    "qrcodeModule": 30,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 274.0
+  },
+  {
+    "qrcodeModule": 30,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 274.0
+  },
+  {
+    "qrcodeModule": 31,
+    "qrcodeCellNum": 2.0,
+    "error": 1,
+    "qrcodeImageWidth": 282.0
+  },
+  {
+    "qrcodeModule": 31,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 282.0
+  },
+  {
+    "qrcodeModule": 31,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 282.0
+  },
+  {
+    "qrcodeModule": 32,
+    "qrcodeCellNum": 2.0,
+    "error": 1,
+    "qrcodeImageWidth": 290.0
+  },
+  {
+    "qrcodeModule": 32,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 290.0
+  },
+  {
+    "qrcodeModule": 32,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 290.0
+  },
+  {
+    "qrcodeModule": 33,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 447.0
+  },
+  {
+    "qrcodeModule": 33,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 298.0
+  },
+  {
+    "qrcodeModule": 33,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 298.0
+  },
+  {
+    "qrcodeModule": 34,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 459.0
+  },
+  {
+    "qrcodeModule": 34,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 306.0
+  },
+  {
+    "qrcodeModule": 34,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 306.0
+  },
+  {
+    "qrcodeModule": 35,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 471.0
+  },
+  {
+    "qrcodeModule": 35,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 314.0
+  },
+  {
+    "qrcodeModule": 35,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 314.0
+  },
+  {
+    "qrcodeModule": 36,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 483.0
+  },
+  {
+    "qrcodeModule": 36,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 322.0
+  },
+  {
+    "qrcodeModule": 36,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 322.0
+  },
+  {
+    "qrcodeModule": 37,
+    "qrcodeCellNum": 3.0,
+    "error": 1,
+    "qrcodeImageWidth": 495.0
+  },
+  {
+    "qrcodeModule": 37,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 330.0
+  },
+  {
+    "qrcodeModule": 37,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 330.0
+  },
+  {
+    "qrcodeModule": 38,
+    "qrcodeCellNum": 2.0,
+    "error": 1,
+    "qrcodeImageWidth": 338.0
+  },
+  {
+    "qrcodeModule": 38,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 338.0
+  },
+  {
+    "qrcodeModule": 38,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 338.0
+  },
+  {
+    "qrcodeModule": 39,
+    "qrcodeCellNum": 2.0,
+    "error": 1,
+    "qrcodeImageWidth": 346.0
+  },
+  {
+    "qrcodeModule": 39,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 346.0
+  },
+  {
+    "qrcodeModule": 39,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 346.0
+  },
+  {
+    "qrcodeModule": 40,
+    "qrcodeCellNum": 2.0,
+    "error": 1,
+    "qrcodeImageWidth": 354.0
+  },
+  {
+    "qrcodeModule": 40,
+    "qrcodeCellNum": 2.0,
+    "error": 2,
+    "qrcodeImageWidth": 354.0
+  },
+  {
+    "qrcodeModule": 40,
+    "qrcodeCellNum": 2.0,
+    "error": 3,
+    "qrcodeImageWidth": 354.0
+  }
+]

@@ -154,6 +154,7 @@ class DecodeHandler(tornado.web.RequestHandler):
 		extractStr = self.parse_encoding_str(extractQrcodeImgList)
 		print('finish parse_encoding_str')
 		successMessage = "Extract the information from the image successfully!"
+		print('extractStr', extractStr)
 		resultObj = self.assembleResultObj('success', successMessage, extractStr)
 		self.write(json.dumps(resultObj))
 		print('finish decoding')
