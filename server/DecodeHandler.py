@@ -8,6 +8,10 @@ import io
 from PIL import Image
 from pyzbar.pyzbar import decode
 from PIL.PngImagePlugin import PngImageFile, PngInfo
+import random
+
+SETTING_BITS_NUM = 2500
+CONFIG_QRCODE_WIDTH = 46
 
 class DecodeHandler(tornado.web.RequestHandler):
 	# extract a single bit from the rgb value
@@ -41,6 +45,24 @@ class DecodeHandler(tornado.web.RequestHandler):
 				'{0:08b}'.format(rgb[1]),
 				'{0:08b}'.format(rgb[2]))	
 
+	# judge whether the pixel is black
+	def is_black(self, qrcodePixel):
+		isBlack = True
+		for i in range(len(qrcodePixel)):
+			if qrcodePixel[i] == 255:
+				isBlack = False
+				break
+		return isBlack
+
+	# judge whether the pixel is white
+	def is_white(self, qrcodePixel):
+		isWhite = True
+		for i in range(len(qrcodePixel)):
+			if qrcodePixel[i] == 0:
+				isWhite = False
+				break
+		return isWhite
+
 	# extract the bit list from host image
 	def extract_qrcode_bit_list(self, hostImage, hostImageHideChannel):
 		hostImageWidth = hostImage.size[0]
@@ -72,6 +94,7 @@ class DecodeHandler(tornado.web.RequestHandler):
 		qrcodeImgList = []
 		qrcodeBitIndex = 0
 		wholeQRcodeNum = math.floor(len(extractQrcodeImgBitList) / (qrCodeSideLen * qrCodeSideLen))
+		print('extractQrcodeImgBit length', len(extractQrcodeImgBitList), 'qrCodeSideLen', qrCodeSideLen)
 		print('qrCodeNum', qrCodeNum, 'wholeQrcodeNum', wholeQRcodeNum)
 		if qrCodeNum > wholeQRcodeNum:
 			qrCodeNum = wholeQRcodeNum
@@ -90,6 +113,49 @@ class DecodeHandler(tornado.web.RequestHandler):
 			# print('qrcodeImgStr', qrcodeImgStr)
 			qrcodeImgList.append(initQRCodeImg)
 		return qrcodeImgList
+
+	# correct the pixel color in the image
+	def correct_qrcode_image_list(self, extractQrcodeImgList, qrCodeCellMaxLen):
+		for i in range(len(extractQrcodeImgList)):
+			qrcodeImg = extractQrcodeImgList[i]
+			qrcodeImgMap = qrcodeImg.load()
+			qrcodeImgWidth = qrcodeImg.size[0]
+			# print('qrcodeImgWidth', qrcodeImgWidth)
+			for cellX in range(0, (qrcodeImgWidth), qrCodeCellMaxLen):
+				for cellY in range(0, (qrcodeImgWidth), qrCodeCellMaxLen):
+					sumBlackBitNum = 0
+					sumWhiteBitNum = 0
+					cellColor = (255, 255, 255)
+					for localX in range(qrCodeCellMaxLen):
+						for localY in range(qrCodeCellMaxLen):
+							pixelX = cellX + localX
+							pixelY = cellY + localY
+							if self.is_black(qrcodeImgMap[pixelX, pixelY]):
+								sumBlackBitNum += 1
+							if self.is_white(qrcodeImgMap[pixelX, pixelY]):
+								sumWhiteBitNum += 1
+					# correct bits in Qrcode
+					# if sumWhiteBitNum != 0 and sumBlackBitNum != 0:
+					# 		print('sumWhiteBitNum', sumWhiteBitNum, 'sumBlackBitNum', sumBlackBitNum)
+					if sumBlackBitNum > sumWhiteBitNum:
+						# set black
+						cellColor = (0, 0, 0)
+					elif sumBlackBitNum < sumWhiteBitNum:
+						# set white
+						cellColor = (255, 255, 255)
+					else:
+						# set the color (white or black) of this pixel randomly 
+						if random.random() > 0.5:
+							cellColor = (0, 0, 0)
+						else:
+							cellColor = (255, 255, 255)
+					# set the pixel color of whole cell
+					for localX in range(qrCodeCellMaxLen):
+						for localY in range(qrCodeCellMaxLen):
+							pixelX = cellX + localX
+							pixelY = cellY + localY
+							qrcodeImgMap[pixelX, pixelY] = cellColor
+		return extractQrcodeImgList
 
 	def assembleResultObj(self, messageType, message, extractStr=""):
 		return {
@@ -121,40 +187,60 @@ class DecodeHandler(tornado.web.RequestHandler):
 		imgdata = pybase64.b64decode(imgdatacontent)
 		hostImage = Image.open(io.BytesIO(imgdata))
 		# evaluate whether the image is suitable for decoding
-		if hasattr(hostImage, 'text'):
-			EmbedInfoObj = hostImage.text
-			print('EmbedInfoObj', EmbedInfoObj)
-			if 'qrCodeNum' in EmbedInfoObj and 'qrCodeCellNum' in EmbedInfoObj and 'qrCodeCellMaxLen' in EmbedInfoObj:
-				qrCodeNum = int(EmbedInfoObj['qrCodeNum'])
-				qrCodeCellNum = int(EmbedInfoObj['qrCodeCellNum'])
-				qrCodeCellMaxLen = int(EmbedInfoObj['qrCodeCellMaxLen'])
-				print('qrCodeNum', qrCodeNum, 'qrCodeCellNum', qrCodeCellNum, 'qrCodeCellMaxLen', qrCodeCellMaxLen)
-			else:
-				notCompleteInfoMessage = 'The properties of this image are not complete.'
-				resultObj = self.assembleResultObj('error', notCompleteInfoMessage)
-				self.write(json.dumps(resultObj))
-				return
-		else:
-			notEmbedInfoMessage = 'The image does not embed other information.'
-			resultObj = self.assembleResultObj('error', notEmbedInfoMessage)
-			print('resultObj', resultObj)
-			resultObjStr = json.dumps(resultObj)
-			self.write(resultObjStr)
-			return
+		# if hasattr(hostImage, 'text'):
+		# 	EmbedInfoObj = hostImage.text
+		# 	print('EmbedInfoObj', EmbedInfoObj)
+		# 	if 'qrCodeNum' in EmbedInfoObj and 'qrCodeCellNum' in EmbedInfoObj and 'qrCodeCellMaxLen' in EmbedInfoObj:
+		# 		qrCodeNum = int(EmbedInfoObj['qrCodeNum'])
+		# 		qrCodeCellNum = int(EmbedInfoObj['qrCodeCellNum'])
+		# 		qrCodeCellMaxLen = int(EmbedInfoObj['qrCodeCellMaxLen'])
+		# 		print('qrCodeNum', qrCodeNum, 'qrCodeCellNum', qrCodeCellNum, 'qrCodeCellMaxLen', qrCodeCellMaxLen)
+		# 	else:
+		# 		notCompleteInfoMessage = 'The properties of this image are not complete.'
+		# 		resultObj = self.assembleResultObj('error', notCompleteInfoMessage)
+		# 		self.write(json.dumps(resultObj))
+		# 		return
+		# else:
+		# 	notEmbedInfoMessage = 'The image does not embed other information.'
+		# 	resultObj = self.assembleResultObj('error', notEmbedInfoMessage)
+		# 	print('resultObj', resultObj)
+		# 	resultObjStr = json.dumps(resultObj)
+		# 	self.write(resultObjStr)
+		# 	return
 		hostImageWidth = hostImage.size[0]
 		hostImageHeight = hostImage.size[1]
 		hostImageHideChannel = 6
 		# the parsing part, extract the bit list of qrcode image from the host image
 		extractQrcodeImgBitList = self.extract_qrcode_bit_list(hostImage, hostImageHideChannel)
 		print('finish extract_qrcode_bit_list')
+		configQrcodeBitSize = CONFIG_QRCODE_WIDTH * CONFIG_QRCODE_WIDTH
+		extractConfigQrcodeImgBitList = extractQrcodeImgBitList[:configQrcodeBitSize]
+		qrcodeBorderWidth = 1
+		configQrCodeModule = 1
+		configQrCodeCellMaxLen = 2
+		 # the side length of the qrcode content plus the border width
+		configQrCodeCellNum = (configQrCodeModule * 4 + 17) + qrcodeBorderWidth * 2
+		configExtractQrcodeImgList = self.revert_qrcode_image_list(extractConfigQrcodeImgBitList, configQrCodeCellMaxLen, configQrCodeCellNum, 1)
+		extractConfigStr = self.parse_encoding_str(configExtractQrcodeImgList)
+		[qrCodeNumStr, qrcodeModuleStr, qrCodeCellMaxLenStr] = extractConfigStr.split(' ')
+		qrCodeNum = int(qrCodeNumStr)
+		qrcodeModule = int(qrcodeModuleStr)
+		qrCodeCellMaxLen = int(qrCodeCellMaxLenStr)
+		qrCodeCellNum = (qrcodeModule * 4 + 17) + qrcodeBorderWidth * 2
+		print('qrCodeNum', qrCodeNum, 'qrCodeCellNum', qrCodeCellNum, 'qrCodeCellMaxLen', qrCodeCellMaxLen)
+		#
+		print('length', len(extractQrcodeImgBitList))
+		extractContentQrcodeImgBitList = extractQrcodeImgBitList[SETTING_BITS_NUM:]
 		# revert the qrcode image list from the qrcode image bit list
-		extractQrcodeImgList = self.revert_qrcode_image_list(extractQrcodeImgBitList, qrCodeCellMaxLen, qrCodeCellNum, qrCodeNum)
+		extractQrcodeImgList = self.revert_qrcode_image_list(extractContentQrcodeImgBitList, qrCodeCellMaxLen, qrCodeCellNum, qrCodeNum)
 		print('finish extract_qrcode_bit_list')
+		correctedExtractQrcodeImgList = self.correct_qrcode_image_list(extractQrcodeImgList, qrCodeCellMaxLen)
+		print('finish qrcode correction')
 		# extract the qrcode image to the inner string
 		extractStr = self.parse_encoding_str(extractQrcodeImgList)
 		print('finish parse_encoding_str')
 		successMessage = "Extract the information from the image successfully!"
-		print('extractStr', extractStr)
+		# print('extractStr', extractStr)
 		resultObj = self.assembleResultObj('success', successMessage, extractStr)
 		self.write(json.dumps(resultObj))
 		print('finish decoding')

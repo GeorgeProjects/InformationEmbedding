@@ -20,6 +20,7 @@ errorCoorectionObj = {
 	'3': 'ERROR_CORRECT_Q', 
 	'4': 'ERROR_CORRECT_H'
 }
+SETTING_BITS_NUM = 2500
 
 class EncodeHandler(tornado.web.RequestHandler):
 	# segment the string
@@ -120,20 +121,24 @@ class EncodeHandler(tornado.web.RequestHandler):
 		return pixelBit
 
 	# merge the host image with the qrcode bit list
-	def merge_qrcode_with_host_image (self, qrcodeImgBitList, hostImage, hostImageHideChannel):
+	def merge_qrcode_with_host_image (self, qrcodeImgBitList, hostImage, hostImageHideChannel, beginMergeBit=0):
 		hostImageWidth = hostImage.size[0]
 		hostImageHeight = hostImage.size[1]
+		# the first SETTING_BITS_NUM bits are not used
 		bitCount = 0
+		qrcodeBitCount = 0
 		hostImageMap = hostImage.load()
 		for i in range(hostImageHideChannel):
 			for j in range(hostImageWidth):
 				for k in range(hostImageHeight):
-					if bitCount >= len(qrcodeImgBitList):
-						return hostImage
-					qrcodeImgBit = qrcodeImgBitList[bitCount]
-					rgbH = self.__int_to_bin(hostImageMap[j, k])
-					rgbH_new = self.__merge_rgb_new(rgbH, qrcodeImgBit, i)
-					hostImageMap[j, k] = self.__bin_to_int(rgbH_new)
+					if bitCount >= beginMergeBit:
+						if qrcodeBitCount >= len(qrcodeImgBitList):
+							return hostImage
+						qrcodeImgBit = qrcodeImgBitList[qrcodeBitCount]
+						rgbH = self.__int_to_bin(hostImageMap[j, k])
+						rgbH_new = self.__merge_rgb_new(rgbH, qrcodeImgBit, i)
+						hostImageMap[j, k] = self.__bin_to_int(rgbH_new)
+						qrcodeBitCount = qrcodeBitCount + 1
 					bitCount = bitCount + 1
 		return hostImage
 
@@ -224,11 +229,13 @@ class EncodeHandler(tornado.web.RequestHandler):
 	def optimize(self, hostImageWidth, hostImageHeight, strLength, optimalCriteriaOrderArray=['maxErrorBits', 'qrcodeImageWidth', 'error', 'qrcodeCellNum', 'qrcodeModule']):
 		resultArray = []
 		hideChannel = 6
+		qrcodeBorderWidth = 1
 		for module in range(1, 41):
 			for error in range(1, 5):
 				qrcodeStrLength = qrcodeParameterObj[str(module)]["capability"][str(error)]
 				qrcodeNum = math.ceil(strLength / qrcodeStrLength)
-				qrCodeCellMaxLen = math.floor(math.sqrt(hostImageWidth * hostImageHeight * hideChannel / qrcodeNum) / (module * 4 + 17))
+				qrcodeCellNum = (module * 4 + 17) + qrcodeBorderWidth * 2
+				qrCodeCellMaxLen = math.floor(math.sqrt((hostImageWidth * hostImageHeight * hideChannel - SETTING_BITS_NUM) / qrcodeNum) / qrcodeCellNum)
 				qrcodeImageWidth = (module * 4 + 17) * qrCodeCellMaxLen
 				maxErrorBits = self.computeMaxErrorBits(module, error, qrCodeCellMaxLen)
 				resultObj = {
@@ -265,12 +272,27 @@ class EncodeHandler(tornado.web.RequestHandler):
 		qrcodeMaxWidth = 177 # the qrcode width of module 40
 		hostImageHideChannel = 6
 		qrcodeNum = math.ceil(strLength / qrcodeMaxStrLength)
-		minHostImagePixel = math.ceil(qrcodeNum * qrcodeMaxWidth * qrcodeMaxWidth / hostImageHideChannel)
+		minHostImagePixel = math.ceil(qrcodeNum * qrcodeMaxWidth * qrcodeMaxWidth + SETTING_BITS_NUM / hostImageHideChannel)
 		hostImageSize = hostImageWidth * hostImageHeight
 		if (hostImageSize < minHostImagePixel):
 			ratio = math.sqrt(minHostImagePixel / hostImageSize)
 			return ratio
 		return 1
+
+	def get_config_qrcode_image_list (self, configInfo):
+		configQrcodeImageList = []
+		qrConfig = qrcode.QRCode (
+			version = 1,
+			error_correction = qrcode.constants.ERROR_CORRECT_H, # the corresponding error correction level is Q
+			box_size = 2,
+			border = 1
+		)
+		qrConfig.add_data(configInfo)
+		qrConfig.make(fit=True)
+		qrcodeConfigImg = qrConfig.make_image(fill_color="black", back_color="white")
+		configQrcodeImageList.append(qrcodeConfigImg)
+		print('qrcodeConfigImg.size', qrcodeConfigImg.size)
+		return configQrcodeImageList
 
 	def get(self):
 		self.write("Hello, world")
@@ -346,8 +368,14 @@ class EncodeHandler(tornado.web.RequestHandler):
 		qrcodeImgBitList = self.compute_qrcode_bit_list(qrcodeImgList)
 		print('finish compute_qrcode_bit_list')
 		# merge the bit list of qrcode into the host image and get the results
-		embeddedHostImage = self.merge_qrcode_with_host_image(qrcodeImgBitList, hostImage, hostImageHideChannel)
+		embeddedHostImage = self.merge_qrcode_with_host_image(qrcodeImgBitList, hostImage, hostImageHideChannel, SETTING_BITS_NUM)
 		print('finish merge_qrcode_with_host_image')
+		# get the config qr code image file
+		configInfo = str(qrCodeNum) + ' ' + str(qrcodeModule) + ' ' + str(qrCodeCellMaxLen)
+		print('configInfo', configInfo)
+		configQrcodeImgList = self.get_config_qrcode_image_list(configInfo)
+		configQrcodeImgBitList = self.compute_qrcode_bit_list(configQrcodeImgList)
+		embeddedHostImage = self.merge_qrcode_with_host_image(configQrcodeImgBitList, embeddedHostImage, hostImageHideChannel)
 		# send the embedded host image back to the client
 		# extractQrcodeImgBitList = self.extract_qrcode_bit_list(embeddedHostImage, hostImageHideChannel)
 		# print('finish extract_qrcode_bit_list')		
@@ -358,15 +386,18 @@ class EncodeHandler(tornado.web.RequestHandler):
 		# extractEncodingStr = self.parse_encoding_str(extractQrcodeImgList)
 		# print('finish parse_encoding_str', extractEncodingStr)
 		# print(len(extractEncodingStr), len(specDataStr))
-		qrCodeNum = len(qrcodeImgList)
+		
+		# buffered = io.BytesIO()
+		# metadata = PngInfo()
+		# metadata.add_text("qrCodeNum", str(qrCodeNum))
+		# metadata.add_text("qrCodeCellNum", str(qrCodeCellNum))
+		# metadata.add_text("qrCodeCellMaxLen", str(qrCodeCellMaxLen))
+		# #
+		# embeddedHostImage.save('host-image-test.png', pnginfo=metadata)
+		# embeddedHostImage = PngImageFile("host-image-test.png")
+		# embeddedHostImage.save(buffered, format="PNG", pnginfo=metadata)
 		buffered = io.BytesIO()
-		metadata = PngInfo()
-		metadata.add_text("qrCodeNum", str(qrCodeNum))
-		metadata.add_text("qrCodeCellNum", str(qrCodeCellNum))
-		metadata.add_text("qrCodeCellMaxLen", str(qrCodeCellMaxLen))
-		embeddedHostImage.save('host-image-test.png', pnginfo=metadata)
-		embeddedHostImage = PngImageFile("host-image-test.png")
-		embeddedHostImage.save(buffered, format="PNG", pnginfo=metadata)
+		embeddedHostImage.save(buffered, format="PNG")
 		print('targetImage', embeddedHostImage, 'EmbedInfo', embeddedHostImage.text)
 		embeddedHostImageStr = pybase64.b64encode(buffered.getvalue())
 		self.write(embeddedHostImageStr)
